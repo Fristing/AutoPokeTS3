@@ -1,0 +1,31 @@
+{
+  "name": "autopoke",
+  "version": "1.0.0",
+  "description": "Auto Poke for Teamspeak 3",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fristing/AutoPokeTS3.git"
+  },
+  "keywords": [
+    "auto;",
+    "poke;",
+    "ts3;",
+    "teamspeak;"
+  ],
+  "author": "Quentin Laffont (Fristing)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fristing/AutoPokeTS3/issues"
+  },
+  "homepage": "https://github.com/Fristing/AutoPokeTS3#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-promise": "^0.4.0",
+    "fs": "0.0.1-security",
+    "node-teamspeak-api": "^1.0.0"
+  }
+}
