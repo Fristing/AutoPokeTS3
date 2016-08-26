@@ -37,35 +37,60 @@ tsClient.api.login({
         console.log(err);
       resp.data.forEach(elem => {
         if((elem.cid == config.channelid)&&(elem.total_clients = 1)){
+          console.log(elem);
           tsClient.send("clientlist", function(err, clientlist, req){
             if(err)
               console.log(err);
-            clientlist.data.forEach(elem => {
-              if(elem.cid == config.channelid){
-                /*
-                tsClient.send("clientlist", function(err, resp, req){
-                  if(err)
-                    console.log(err);
-                });
-                */
-                console.log(elem);
+
+            var fctcheck = function(data){
+              if(data.cid == config.channelid){
+                return true;
+              }else{
+                return false;
+              }
+            };
+            var clientinchannel = clientlist.data.filter(fctcheck);
+            console.log(clientinchannel);
+            if(clientinchannel.length == 1){
+              clientinchannel.forEach(elem => {
                 tsClient.send("servergroupsbyclientid",{cldbid:elem.client_database_id}, function(err, resp, req){
                   if(err)
                     console.log(err);
                     if(!Array.isArray(resp.data)){
                       if(resp.data.name == "Guest"){
-                        //Verifier si des personnes du TS appartienne au groupe(s) choisi / Poke ces Personnes (Probablement dans CID == GROUPE ID)
+                        var groupids = config.groupid.split("/");
+                        groupids.forEach(elemg => {
+                          clientlist.data.forEach(elemc => {
+                            if(elemc.client_type == 0){
+                              tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
+                                if(err)
+                                  console.log(err);
+                                  if(resp.data.sgid == elemg){
+                                    tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
+                                      if(err)
+                                        console.log(err);
+                                    });
+                                  }
+                              });
+                            }
+                          });
+                        });
 
                       }
                     }
-                  console.log(resp.data);
                 });
-              }
-            });
-            //tsClient.disconnect();
+              });
+              setTimeout(function () {
+                tsClient.disconnect();
+                return true;
+              }, 10000);
+            }else {
+              tsClient.disconnect();
+            }
           });
         }
       });
+
     });
   });
 });
