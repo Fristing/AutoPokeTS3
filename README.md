@@ -26,5 +26,12 @@ $ node server.js
 ##Configuration Example
 ```sh
 {
+"host":"Teamspeak IP",
+"port":"10011 (or other)",
+"user":"serveradmin (or user)",
+"password":"password",
+"channelid":"(selected channel)",
+"groupid":"10/11(selected groups)",
+"message": "Someone need your help !"
 }
 ```
