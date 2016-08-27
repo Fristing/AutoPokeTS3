@@ -40,7 +40,7 @@ var autopoke = {
           if(err)
             console.log(err);
           //Check if one client is in channel
-          resp.data.forEach(elem => {
+          resp.data.forEach(function(elem){
             if((elem.cid == config.channelid)&&(elem.total_clients = 1)){
               tsClient.send("clientlist", function(err, clientlist, req){
                 if(err)
@@ -55,7 +55,8 @@ var autopoke = {
                 var clientinchannel = clientlist.data.filter(fctcheck);
                 //Double Check
                 if(clientinchannel.length == 1){
-                  clientinchannel.forEach(elem => {
+                  clientinchannel.forEach(function(elem){
+                    var pseudo = elem.client_nickname;
                     tsClient.send("servergroupsbyclientid",{cldbid:elem.client_database_id}, function(err, resp, req){
                       if(err)
                         console.log(err);
@@ -72,12 +73,14 @@ var autopoke = {
                             };
                             clientlist = clientlist.data.filter(fctcheckclitype);
                             //Poke all connected client with selected group
-                            groupids.forEach(elemg => {
-                              clientlist.data.forEach(elemc => {
+                            groupids.forEach(function(elemg){
+                              clientlist.data.forEach(function(elemc){
                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                   if(err)
                                     console.log(err);
                                     if(resp.data.sgid == elemg){
+                                      config.message = config.message.split("%client%").join(pseudo);
+                                      console.log(config.message);
                                       tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
                                         if(err)
                                           console.log(err);

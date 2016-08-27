@@ -9,7 +9,7 @@ var Config = {
       configfile = fs.readFileSync(file);
       config= JSON.parse(configfile);
       flag = true;
-      this.field.forEach(elem => {
+      this.field.forEach(function(elem){
         if(!(config.hasOwnProperty(elem)) && (config.prototype.valueOF)){
           flag = false;
         }
@@ -22,7 +22,7 @@ var Config = {
       }
     } catch (err) {
       data = "{\n";
-      this.field.forEach(elem => {
+      this.field.forEach(function(elem) {
         data = data.concat("\""+elem+"\":\"\",\n");
       });
       data = data.slice(0, -2);
