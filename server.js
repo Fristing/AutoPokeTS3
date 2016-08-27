@@ -21,76 +21,95 @@ Config.add("message");
 var config = Config.check("config.json");
 
 
-var TeamSpeak = require('node-teamspeak-api');
-var tsClient = new TeamSpeak(config.host, config.port);
-tsClient.api.login({
-    client_login_name: config.user,
-    client_login_password: config.password
-}, function(err, resp, req) {
-  if(err)
-    console.log(err);
-  tsClient.api.use({
-      sid: 1
-  }, function(err, resp, req) {
-    tsClient.send("channellist", function(err, resp, req){
+
+
+var autopoke = {
+  fct: function(){
+    console.log("SCAN");
+    var TeamSpeak = require('node-teamspeak-api');
+    var tsClient = new TeamSpeak(config.host, config.port);
+    tsClient.api.login({
+        client_login_name: config.user,
+        client_login_password: config.password
+    }, function(err, resp, req) {
       if(err)
         console.log(err);
-      resp.data.forEach(elem => {
-        if((elem.cid == config.channelid)&&(elem.total_clients = 1)){
-          console.log(elem);
-          tsClient.send("clientlist", function(err, clientlist, req){
-            if(err)
-              console.log(err);
-
-            var fctcheck = function(data){
-              if(data.cid == config.channelid){
-                return true;
-              }else{
-                return false;
-              }
-            };
-            var clientinchannel = clientlist.data.filter(fctcheck);
-            console.log(clientinchannel);
-            if(clientinchannel.length == 1){
-              clientinchannel.forEach(elem => {
-                tsClient.send("servergroupsbyclientid",{cldbid:elem.client_database_id}, function(err, resp, req){
-                  if(err)
-                    console.log(err);
-                    if(!Array.isArray(resp.data)){
-                      if(resp.data.name == "Guest"){
-                        var groupids = config.groupid.split("/");
-                        groupids.forEach(elemg => {
-                          clientlist.data.forEach(elemc => {
-                            if(elemc.client_type == 0){
-                              tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
-                                if(err)
-                                  console.log(err);
-                                  if(resp.data.sgid == elemg){
-                                    tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
-                                      if(err)
-                                        console.log(err);
-                                    });
-                                  }
+      tsClient.api.use({
+          sid: 1
+      }, function(err, resp, req) {
+        tsClient.send("channellist", function(err, resp, req){
+          if(err)
+            console.log(err);
+          resp.data.forEach(elem => {
+            if((elem.cid == config.channelid)&&(elem.total_clients = 1)){
+              tsClient.send("clientlist", function(err, clientlist, req){
+                if(err)
+                  console.log(err);
+                console.log(clientlist);
+                var fctcheck = function(data){
+                  if(data.cid == config.channelid){
+                    return true;
+                  }else{
+                    return false;
+                  }
+                };
+                var clientinchannel = clientlist.data.filter(fctcheck);
+                if(clientinchannel.length == 1){
+                  clientinchannel.forEach(elem => {
+                    tsClient.send("servergroupsbyclientid",{cldbid:elem.client_database_id}, function(err, resp, req){
+                      if(err)
+                        console.log(err);
+                        if(!Array.isArray(resp.data)){
+                          if(resp.data.name == "Guest"){
+                            var groupids = config.groupid.split("/");
+                            var fctcheckclitype = function(data){
+                              if(data.client_type == 0){
+                                return true;
+                              }else{
+                                return false;
+                              }
+                            };
+                            clientlist = clientlist.data.filter(fctcheckclitype);
+                            groupids.forEach(elemg => {
+                              clientlist.data.forEach(elemc => {
+                                tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
+                                  if(err)
+                                    console.log(err);
+                                    if(resp.data.sgid == elemg){
+                                      tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
+                                        if(err)
+                                          console.log(err);
+                                      });
+                                    }
+                                });
                               });
-                            }
-                          });
-                        });
-
-                      }
-                    }
-                });
+                            });
+                          }
+                        }
+                    });
+                  });
+                  setTimeout(function () {
+                    tsClient.disconnect();
+                  }, 15000);
+                  setTimeout(function () {
+                    autopoke.fct();
+                  }, 300000);
+                }else {
+                  setTimeout(function () {
+                    tsClient.disconnect();
+                  }, 15000);
+                  setTimeout(function () {
+                    autopoke.fct();
+                  }, 30000);
+                }
               });
-              setTimeout(function () {
-                tsClient.disconnect();
-                return true;
-              }, 10000);
-            }else {
-              tsClient.disconnect();
             }
           });
-        }
-      });
 
+        });
+      });
     });
-  });
-});
+  }
+};
+
+autopoke.fct();
