@@ -9,7 +9,7 @@ try{
   process.exit(1);
 }
 
-//Classe Config
+//Check Configuration
 var Config = require('./tools/config');
 Config.add("host");
 Config.add("port");
@@ -25,7 +25,6 @@ var config = Config.check("config.json");
 
 var autopoke = {
   fct: function(){
-    console.log("SCAN");
     var TeamSpeak = require('node-teamspeak-api');
     var tsClient = new TeamSpeak(config.host, config.port);
     tsClient.api.login({
@@ -40,12 +39,12 @@ var autopoke = {
         tsClient.send("channellist", function(err, resp, req){
           if(err)
             console.log(err);
+          //Check if one client is in channel
           resp.data.forEach(elem => {
             if((elem.cid == config.channelid)&&(elem.total_clients = 1)){
               tsClient.send("clientlist", function(err, clientlist, req){
                 if(err)
                   console.log(err);
-                console.log(clientlist);
                 var fctcheck = function(data){
                   if(data.cid == config.channelid){
                     return true;
@@ -54,12 +53,14 @@ var autopoke = {
                   }
                 };
                 var clientinchannel = clientlist.data.filter(fctcheck);
+                //Double Check
                 if(clientinchannel.length == 1){
                   clientinchannel.forEach(elem => {
                     tsClient.send("servergroupsbyclientid",{cldbid:elem.client_database_id}, function(err, resp, req){
                       if(err)
                         console.log(err);
                         if(!Array.isArray(resp.data)){
+                          //Check if this client is a guest
                           if(resp.data.name == "Guest"){
                             var groupids = config.groupid.split("/");
                             var fctcheckclitype = function(data){
@@ -70,6 +71,7 @@ var autopoke = {
                               }
                             };
                             clientlist = clientlist.data.filter(fctcheckclitype);
+                            //Poke all connected client with selected group
                             groupids.forEach(elemg => {
                               clientlist.data.forEach(elemc => {
                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
@@ -88,16 +90,20 @@ var autopoke = {
                         }
                     });
                   });
+                  //After 15 secondes Deconnection
                   setTimeout(function () {
                     tsClient.disconnect();
                   }, 15000);
+                  //After 5 minutes New check
                   setTimeout(function () {
                     autopoke.fct();
                   }, 300000);
                 }else {
+                  //After 15 secondes Deconnection
                   setTimeout(function () {
                     tsClient.disconnect();
                   }, 15000);
+                  //After 30 secondes New check
                   setTimeout(function () {
                     autopoke.fct();
                   }, 30000);
