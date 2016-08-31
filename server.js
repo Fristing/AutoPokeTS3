@@ -72,9 +72,10 @@ var autopoke = {
                               }
                             };
                             clientlist = clientlist.data.filter(fctcheckclitype);
+                            
                             //Poke all connected client with selected group
                             groupids.forEach(function(elemg){
-                              clientlist.data.forEach(function(elemc){
+                              clientlist.forEach(function(elemc){
                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                   if(err)
                                     console.log(err);
