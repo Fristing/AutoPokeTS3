@@ -145,20 +145,20 @@ var autopoke = {
                         //After 15 secondes Deconnection
                         setTimeout(function () {
                           tsClient.disconnect();
-                        }, 15000);
+                        }, 50000);
                         //After 30 secondes New check
                         setTimeout(function () {
                           autopoke.fct();
-                        }, 300000);
+                        }, 1000000);
                       }else {
                         //After 15 secondes Deconnection
                         setTimeout(function () {
                           tsClient.disconnect();
-                        }, 15000);
+                        }, 50000);
                         //After 30 secondes New check
                         setTimeout(function () {
                           autopoke.fct();
-                        }, 30000);
+                        }, 100000);
                       }
                     });
                   }
