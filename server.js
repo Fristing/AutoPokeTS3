@@ -4,6 +4,7 @@ try{
   var app         = express();
   app.use(require('express-promise')());
   var fs = require("fs");
+  require('string.prototype.startswith');
 }catch(e){
   console.log('Error : Please execute this command "npm install" !');
   process.exit(1);

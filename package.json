@@ -26,6 +26,7 @@
     "express": "^4.14.0",
     "express-promise": "^0.4.0",
     "fs": "0.0.1-security",
-    "node-teamspeak-api": "^1.0.0"
+    "node-teamspeak-api": "^1.0.0",
+    "string.prototype.startswith": "^0.2.0"
   }
 }
