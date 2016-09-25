@@ -99,7 +99,7 @@ var autopoke = {
                                             console.log(err);
                                             if(resp.data.sgid == elemg){
                                               config.message = config.message.split("%client%").join(pseudo);
-
+                                              console.log(config.message);
                                               tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
                                                 if(err)
                                                   console.log(err);
@@ -125,7 +125,7 @@ var autopoke = {
                                                     console.log(err);
                                                     if(resp.data.sgid == group.sgid){
                                                       config.message = config.message.split("%client%").join(pseudo);
-
+                                                      console.log(config.message);
                                                       tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
                                                         if(err)
                                                           console.log(err);
