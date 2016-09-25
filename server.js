@@ -125,6 +125,7 @@ var autopoke = {
                                         groups.forEach(function(group){
                                           groupnames.forEach(function(elemname){
                                             if(group.name.startsWith(elemname)){
+                                              console.log(elemname);
                                               clientlist.forEach(function(elemc){
                                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                                   if(err)
