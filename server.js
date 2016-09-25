@@ -27,7 +27,7 @@ var month = dateObj.getMonth();
 var day = dateObj.getDay();
 var year = dateObj.getYear();
 var hours = dateObj.getHours();
-var min = dateOBJ.  getMinutes();
+var min = dateObj.getMinutes();
 console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Start !");
 
 
@@ -38,7 +38,7 @@ var autopoke = {
     var day = dateObj.getDay();
     var year = dateObj.getYear();
     var hours = dateObj.getHours();
-    var min = dateOBJ.  getMinutes();
+    var min = dateObj.getMinutes();
     console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Initialise");
     var TeamSpeak = require('node-teamspeak-api');
     var tsClient = new TeamSpeak(config.host, config.port);
@@ -112,7 +112,7 @@ var autopoke = {
                                     var day = dateObj.getDay();
                                     var year = dateObj.getYear();
                                     var hours = dateObj.getHours();
-                                    var min = dateOBJ.  getMinutes();
+                                    var min = dateObj.getMinutes();
                                     console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Poke Success");
                                   }else{
                                     tsClient.send("servergrouplist", {cldbid:elemc.client_database_id}, function(err, resp, req){
@@ -148,7 +148,7 @@ var autopoke = {
                                   var day = dateObj.getDay();
                                   var year = dateObj.getYear();
                                   var hours = dateObj.getHours();
-                                  var min = dateOBJ.  getMinutes();
+                                  var min = dateObj.getMinutes();
                                   console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Poke Success");
                                 }
                               }
