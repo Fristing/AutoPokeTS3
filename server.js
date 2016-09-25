@@ -115,7 +115,7 @@ var autopoke = {
                                     var min = dateObj.getMinutes();
                                     console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Poke Success");
                                   }else{
-                                    tsClient.send("servergrouplist", {cldbid:elemc.client_database_id}, function(err, resp, req){
+                                    tsClient.send("servergrouplist", function(err, resp, req){
                                       if(err)
                                         console.log(err);
                                         var groupnames = config.groupid.split("/");
