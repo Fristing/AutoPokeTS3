@@ -3,7 +3,7 @@ Auto Poke for teamspeak 3.
 This nodejs project auto poke connected clients.
  - When a new client entered in channel, this plugin poke selected groups.
  - This client need to be a Guest.
- 
+
 
 ##Requirements
 NodeJS
@@ -19,7 +19,7 @@ Install the dependencies and devDependencies and start application.
 
 ```sh
 $ cd AutoPokeTS3
-$ npm install 
+$ npm install
 $ node server.js
 ```
 
@@ -32,6 +32,15 @@ $ node server.js
 "password":"password",
 "channelid":"(selected channel)",
 "groupid":"10/11(selected groups)",
-"message": "Someone need your help !"
+"message": "Someone need your help !",
+"botname": "AutoPokeTS3",
+"type" : 1
 }
 ```
+
+##Type selection
+1 => Only Selected ID groups
+  Ex : "1/2/3/4"
+2 => Groups with selected name
+  Ex : "Admin/Resp"
+  Poke groups starting with name Admin and Resp
