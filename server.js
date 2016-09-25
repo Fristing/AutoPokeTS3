@@ -130,7 +130,7 @@ var autopoke = {
                                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                                   if(err)
                                                     console.log(err);
-                                                    if(resp.data.sgid == elem.sgid){
+                                                    if(resp.data.sgid == group.sgid){
                                                       config.message = config.message.split("%client%").join(pseudo);
 
                                                       tsClient.send("clientpoke", {clid: elemc.clid, msg:config.message},function(err, resp, req){
