@@ -93,7 +93,7 @@ var autopoke = {
                                   if(config.type == 1){
                                     var groupids = config.groupid.split("/");
                                     groupids.forEach(function(elemg){
-                                      clientlist.data.forEach(function(elemc){
+                                      clientlist.forEach(function(elemc){
                                         tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                           if(err)
                                             console.log(err);
@@ -125,7 +125,7 @@ var autopoke = {
                                         groups.forEach(function(group){
                                           groupnames.forEach(function(elemname){
                                             if(group.name.startsWith(elemname)){
-                                              clientlist.data.forEach(function(elemc){
+                                              clientlist.forEach(function(elemc){
                                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                                   if(err)
                                                     console.log(err);
