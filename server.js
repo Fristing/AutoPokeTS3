@@ -108,13 +108,7 @@ var autopoke = {
                                         });
                                       });
                                     });
-                                    var dateObj = new Date();
-                                    var month = dateObj.getMonth();
-                                    var day = dateObj.getDay();
-                                    var year = dateObj.getYear();
-                                    var hours = dateObj.getHours();
-                                    var min = dateObj.getMinutes();
-                                    console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Poke Success");
+
                                   }else{
                                     tsClient.send("servergrouplist", function(err, resp, req){
                                       if(err)
@@ -125,7 +119,6 @@ var autopoke = {
                                         groups.forEach(function(group){
                                           groupnames.forEach(function(elemname){
                                             if(group.name.startsWith(elemname)){
-                                              console.log(elemname);
                                               clientlist.forEach(function(elemc){
                                                 tsClient.send("servergroupsbyclientid", {cldbid:elemc.client_database_id}, function(err, resp, req){
                                                   if(err)
@@ -145,13 +138,6 @@ var autopoke = {
                                         });
                                     });
                                   }
-                                  var dateObj = new Date();
-                                  var month = dateObj.getMonth();
-                                  var day = dateObj.getDay();
-                                  var year = dateObj.getYear();
-                                  var hours = dateObj.getHours();
-                                  var min = dateObj.getMinutes();
-                                  console.log("["+day+"-"+month+"-"+year+" "+hours+":"+min+"] Poke Success");
                                 }
                               }
                           });
